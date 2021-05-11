@@ -14,6 +14,9 @@ symbols = data_nasdaq["Symbol"].tolist() + data_nyse["Symbol"].tolist()
 
 # some stock symbols have the same name as some words
 words_to_ignore = [
+    "WSB",
+    "A",
+    "THE",
     "I",
     "FANG",
     "FUND",

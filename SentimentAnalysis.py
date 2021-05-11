@@ -17,7 +17,7 @@ class SentimentAnalysisReddit:
         """
         Creates a SentimentAnalysisReddit object
         Note 1: the sentiment analysis is mainly oriented for r/wallstreetbets
-        Note 2: this class analyzes the top 10 hottest submissions of the subreddit
+        Note 2: this class analyzes the top 30 hottest submissions of the subreddit
         although other finance related subreddits can be used as well
         :param upvote_ratio: posted will be considered
         if its upvote ratio exceeds upvote_ratio
@@ -38,14 +38,14 @@ class SentimentAnalysisReddit:
     def count_ticker_frequency(self):
         """
         Helper function for sentiment_analysis
-        Scans through the top 10 hottest submissions of a subreddit
+        Scans through the top 30 hottest submissions of a subreddit
         For each submission, this parses the post's body and comments (top-level and 10 inner-comments)
         into words, counts the number of occurrences of a word being a ticker symbol (self.tickers),
         and stores the comment containing the occurrence in self.comment_of_words
         :return: None
         """
         # loop through the posts
-        for submission in self.subreddit.hot(limit=10):
+        for submission in self.subreddit.hot(limit=30):
 
             # loop through each word in the submission body
             submission_body = submission.selftext
@@ -69,6 +69,7 @@ class SentimentAnalysisReddit:
                     words = comment.body.split(" ")  # split into words
                     for word in words:
                         word = word.replace("$", "")
+                        word = word.replace("#", "")
                         # counting tickers
                         if word.isupper() and word in self.tickers and word not in words_to_ignore:
                             self.tickers[word] += 1
@@ -179,6 +180,6 @@ class SentimentAnalysisReddit:
 
 if __name__ == "__main__":
     wsb_sentiment_analysis = SentimentAnalysisReddit(0.7, 2, "wallstreetbets", ["Meme"], 5)
-    # wsb_sentiment_analysis.sentiment_analysis()
+    wsb_sentiment_analysis.sentiment_analysis()
     # wsb_sentiment_analysis.plot_frequency_of_tickers(10)
     # wsb_sentiment_analysis.plot_most_frequently_used_words(50)
