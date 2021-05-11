@@ -3,3 +3,4 @@ venv/
 *.csv
 __pycache__
 praw.ini
+1-1000.txt

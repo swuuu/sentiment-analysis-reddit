@@ -1,9 +1,15 @@
 import pandas
 
-data_nasdaq = pandas.read_csv("nasdaq_tickers.csv")
-data_nyse = pandas.read_csv("nyse_tickers.csv")
+# 1000 most common words in english
+common_words = []
+with open("./1-1000.txt", "r") as file: # text file obtained from https://gist.github.com/deekayen/4148741
+    for line in file.readlines():
+        word = line.replace("\n", "")
+        common_words.append(word)
 
 # stock symbols
+data_nasdaq = pandas.read_csv("nasdaq_tickers.csv")
+data_nyse = pandas.read_csv("nyse_tickers.csv")
 symbols = data_nasdaq["Symbol"].tolist() + data_nyse["Symbol"].tolist()
 
 # some stock symbols have the same name as some words
@@ -28,7 +34,7 @@ words_to_ignore = [
     "GOLD",
 ]
 
-# either -1 or 1
+# score is either -1 (negative) or 1 (positive)
 financial_lexicon = {
     # source: https://www.investopedia.com/wallstreetbets-slang-and-memes-5111311
     "bear": -1,

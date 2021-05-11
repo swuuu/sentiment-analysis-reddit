@@ -139,7 +139,7 @@ class SentimentAnalysisReddit:
     def plot_most_frequently_used_words(self, top_cutoff):
         """
         Get the top_cutoff most frequently used words on the subreddit and plots its bar graph
-        Used to identify the common jargon of r/wallstreetbets
+        Used to identify the common words/jargon of r/wallstreetbets
         :param top_cutoff: cutoff of the most frequently used words
         :return: None
         """
@@ -153,7 +153,7 @@ class SentimentAnalysisReddit:
                 if comment.score > self.upvotes:
                     words = comment.body.split(" ")
                     for word in words:
-                        if word not in word_count and word.isupper():
+                        if word not in word_count and (word not in common_words or word in financial_lexicon):
                             word_count[word] = 0
                         elif word in word_count:
                             word_count[word] += 1
